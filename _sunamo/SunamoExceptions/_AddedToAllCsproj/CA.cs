@@ -1,4 +1,4 @@
-namespace SunamoCollectionOnDrive._sunamo.SunamoExceptions._AddedToAllCsproj;
+//namespace SunamoCollectionOnDrive._sunamo.SunamoExceptions._AddedToAllCsproj;
 
 internal class CA
 {
