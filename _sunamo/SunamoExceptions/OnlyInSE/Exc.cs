@@ -1,9 +1,5 @@
 namespace SunamoCollectionOnDrive._sunamo.SunamoExceptions.OnlyInSE;
 
-
-
-
-
 internal class Exc
 {
     

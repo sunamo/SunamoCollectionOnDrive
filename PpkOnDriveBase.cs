@@ -1,4 +1,5 @@
 namespace SunamoCollectionOnDrive;
+
 public abstract class PpkOnDriveBase<T> : List<T>
 {
     #region DPP
@@ -81,7 +82,7 @@ void
     {
         this.a = a;
         File.AppendAllText(a.file, "");
-        //FSSH.CreateFileIfDoesntExists(a.file);
+        //FS.CreateFileIfDoesntExists(a.file);
         Load(a.load);
         if (a.loadChangesFromDrive)
         {
@@ -111,9 +112,9 @@ void
         {
             isSaving = true;
             bool removedOrNotExists = false;
-            //if (FSSH.ExistsFile(a.file))
+            //if (FS.ExistsFile(a.file))
             //{
-            //    removedOrNotExists = FSSH.TryDeleteFile(a.file);
+            //    removedOrNotExists = FS.TryDeleteFile(a.file);
             //}
             if (removedOrNotExists)
             {

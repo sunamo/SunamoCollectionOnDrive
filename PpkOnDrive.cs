@@ -1,4 +1,5 @@
 namespace SunamoCollectionOnDrive;
+
 /// <summary>
 /// Checking whether string is already contained.
 /// </summary>
@@ -37,7 +38,7 @@ void
             await
 #endif
             File.ReadAllTextAsync(a.file)));
-            //CASH.RemoveStringsEmpty2(this);
+            //CA.RemoveStringsEmpty2(this);
             if (removeDuplicates)
             {
                 //CAG.RemoveDuplicitiesList<string>(this);

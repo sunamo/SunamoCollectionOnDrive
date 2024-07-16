@@ -1,6 +1,5 @@
 namespace SunamoCollectionOnDrive;
 
-
 public class PpkOnDriveT<T> : PpkOnDriveBase<T> where T : IParserCollectionOnDrive
 {
     public override
@@ -19,7 +18,7 @@ void
             await
 #endif
             File.ReadAllTextAsync(a.file)))
-            //TFSE.ReadAllLines(a.file))
+            //TF.ReadAllLines(a.file))
             {
                 T t = (T)Activator.CreateInstance(typeof(T));
                 t.Parse(item);
