@@ -1,6 +1,6 @@
 namespace SunamoCollectionOnDrive._sunamo.SunamoExceptions._AddedToAllCsproj;
 
-internal class SHSunamoExceptions
+internal class SH
 {
     internal static string JoinNL(List<string> l)
     {
@@ -24,7 +24,7 @@ internal class SHSunamoExceptions
     }
     internal static string NullToStringOrDefault(object n)
     {
-        
+
         return n == null ? " " + Consts.nulled : AllStrings.space + n;
     }
     internal static string TrimEnd(string name, string ext)
