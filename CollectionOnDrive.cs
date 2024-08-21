@@ -3,21 +3,21 @@ namespace SunamoCollectionOnDrive;
 /// <summary>
 ///     Checking whether string is already contained.
 /// </summary>
-public class PpkOnDrive : PpkOnDriveBase<string>
+public class CollectionOnDrive : CollectionOnDriveBase<string>
 {
-    private static PpkOnDrive wroteOnDrive = null;
+    private static CollectionOnDrive wroteOnDrive = null;
     public bool removeDuplicates = false;
 
-    public PpkOnDrive(PpkOnDriveArgs a) : base(a)
+    public CollectionOnDrive(PpkOnDriveArgs a) : base(a)
     {
     }
 
-    public PpkOnDrive(string file2, bool load = true) : base(new PpkOnDriveArgs { file = file2, load = load })
+    public CollectionOnDrive(string file2, bool load = true) : base(new PpkOnDriveArgs { file = file2, load = load })
     {
     }
 
-    public PpkOnDrive(string file, bool load, bool save) : base(new PpkOnDriveArgs
-        { file = file, load = load, save = save })
+    public CollectionOnDrive(string file, bool load, bool save) : base(new PpkOnDriveArgs
+    { file = file, load = load, save = save })
     {
     }
 

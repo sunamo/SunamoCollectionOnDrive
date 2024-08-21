@@ -13,3 +13,6 @@ global using SunamoCollectionOnDrive._sunamo.SunamoExceptions.OnlyInSE;
 global using System.Diagnostics;
 global using System.Net;
 global using System.Threading.Tasks;
+global using SunamoCollectionOnDrive;
+global using SunamoCollectionOnDrive._sunamo;
+global using SunamoCollectionOnDrive._sunamo.SunamoParsing;

@@ -1,6 +1,6 @@
 namespace SunamoCollectionOnDrive;
 
-public abstract class PpkOnDriveBase<T> : List<T>
+public abstract class CollectionOnDriveBase<T> : List<T>
 {
     #region DPP
 
@@ -120,7 +120,7 @@ void
 
     #region base
 
-    public PpkOnDriveBase(PpkOnDriveArgs a)
+    public CollectionOnDriveBase(PpkOnDriveArgs a)
     {
         this.a = a;
         File.AppendAllText(a.file, "");
