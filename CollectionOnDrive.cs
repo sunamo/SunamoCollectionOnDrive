@@ -8,15 +8,15 @@ public class CollectionOnDrive : CollectionOnDriveBase<string>
     private static CollectionOnDrive wroteOnDrive = null;
     public bool removeDuplicates = false;
 
-    public CollectionOnDrive(PpkOnDriveArgs a) : base(a)
+    public CollectionOnDrive(CollectionOnDriveArgs a) : base(a)
     {
     }
 
-    public CollectionOnDrive(string file2, bool load = true) : base(new PpkOnDriveArgs { file = file2, load = load })
+    public CollectionOnDrive(string file2, bool load = true) : base(new CollectionOnDriveArgs { file = file2, load = load })
     {
     }
 
-    public CollectionOnDrive(string file, bool load, bool save) : base(new PpkOnDriveArgs
+    public CollectionOnDrive(string file, bool load, bool save) : base(new CollectionOnDriveArgs
     { file = file, load = load, save = save })
     {
     }

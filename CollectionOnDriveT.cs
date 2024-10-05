@@ -2,15 +2,15 @@ namespace SunamoCollectionOnDrive;
 
 public class CollectionOnDriveT<T> : CollectionOnDriveBase<T> where T : IParserCollectionOnDrive
 {
-    public CollectionOnDriveT(PpkOnDriveArgs a) : base(a)
+    public CollectionOnDriveT(CollectionOnDriveArgs a) : base(a)
     {
     }
 
-    public CollectionOnDriveT(string file2, bool load = true) : base(new PpkOnDriveArgs { file = file2, load = load })
+    public CollectionOnDriveT(string file2, bool load = true) : base(new CollectionOnDriveArgs { file = file2, load = load })
     {
     }
 
-    public CollectionOnDriveT(string file, bool load, bool save) : base(new PpkOnDriveArgs
+    public CollectionOnDriveT(string file, bool load, bool save) : base(new CollectionOnDriveArgs
         { file = file, load = load, save = save })
     {
     }

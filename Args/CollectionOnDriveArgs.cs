@@ -1,6 +1,6 @@
 namespace SunamoCollectionOnDrive.Args;
 
-public class PpkOnDriveArgs
+public class CollectionOnDriveArgs
 {
     public string file;
 

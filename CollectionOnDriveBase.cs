@@ -4,7 +4,7 @@ public abstract class CollectionOnDriveBase<T> : List<T>
 {
     #region DPP
 
-    protected PpkOnDriveArgs a;
+    protected CollectionOnDriveArgs a;
 
     #endregion
 
@@ -120,7 +120,7 @@ void
 
     #region base
 
-    public CollectionOnDriveBase(PpkOnDriveArgs a)
+    public CollectionOnDriveBase(CollectionOnDriveArgs a)
     {
         this.a = a;
         File.AppendAllText(a.file, "");
