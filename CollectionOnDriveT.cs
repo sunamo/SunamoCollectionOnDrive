@@ -6,12 +6,7 @@ public class CollectionOnDriveT<T> : CollectionOnDriveBase<T> where T : IParserC
     {
     }
 
-    public CollectionOnDriveT(string file2, bool load = true) : base(new CollectionOnDriveArgs { file = file2, load = load })
-    {
-    }
-
-    public CollectionOnDriveT(string file, bool load, bool save) : base(new CollectionOnDriveArgs
-        { file = file, load = load, save = save })
+    public CollectionOnDriveT(string file2) : base(new CollectionOnDriveArgs { file = file2 })
     {
     }
 
@@ -31,7 +26,7 @@ void
                          await
 #endif
                              File.ReadAllTextAsync(a.file)))
-                //TF.ReadAllLines(a.file))
+            //TF.ReadAllLines(a.file))
             {
                 var t = (T)Activator.CreateInstance(typeof(T));
                 t.Parse(item);

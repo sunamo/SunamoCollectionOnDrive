@@ -85,23 +85,22 @@ void
 
     public async Task Save()
     {
-        if (a.save)
-        {
-            isSaving = true;
-            var removedOrNotExists = false;
-            //if (FS.ExistsFile(a.file))
-            //{
-            //    removedOrNotExists = FS.TryDeleteFile(a.file);
-            //}
-            if (removedOrNotExists)
-            {
-                string obsah;
-                obsah = ReturnContent();
-                await File.WriteAllTextAsync(a.file, obsah);
-            }
 
-            isSaving = false;
+        isSaving = true;
+        var removedOrNotExists = false;
+        //if (FS.ExistsFile(a.file))
+        //{
+        //    removedOrNotExists = FS.TryDeleteFile(a.file);
+        //}
+        if (removedOrNotExists)
+        {
+            string obsah;
+            obsah = ReturnContent();
+            await File.WriteAllTextAsync(a.file, obsah);
         }
+
+        isSaving = false;
+
     }
 
     private string ReturnContent()
@@ -125,7 +124,7 @@ void
         this.a = a;
         File.AppendAllText(a.file, "");
         //FS.CreateFileIfDoesntExists(a.file);
-        Load(a.load);
+        Load();
         if (a.loadChangesFromDrive)
         {
             w = new FileSystemWatcher(Path.GetDirectoryName(a.file));

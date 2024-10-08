@@ -12,26 +12,10 @@ public class CollectionOnDrive : CollectionOnDriveBase<string>
     {
     }
 
-    public CollectionOnDrive(string file2, bool load = true) : base(new CollectionOnDriveArgs { file = file2, load = load })
+    public CollectionOnDrive(string file) : base(new CollectionOnDriveArgs { file = file })
     {
     }
 
-    public CollectionOnDrive(string file, bool load, bool save) : base(new CollectionOnDriveArgs
-    { file = file, load = load, save = save })
-    {
-    }
-
-    //public static PpkOnDrive WroteOnDrive
-    //{
-    //    get
-    //    {
-    //        if (wroteOnDrive == null)
-    //        {
-    //            wroteOnDrive = new PpkOnDrive(AppData.ci.GetFile(AppFolders.Logs, "WrittenFiles.txt"));
-    //        }
-    //        return wroteOnDrive;
-    //    }
-    //}
     public async Task Load(string file)
     {
         a.file = file;
