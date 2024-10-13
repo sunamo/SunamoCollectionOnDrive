@@ -1,36 +1,27 @@
+using Microsoft.Extensions.Logging;
+
 namespace SunamoCollectionOnDrive;
 
-public class CollectionOnDriveT<T> : CollectionOnDriveBase<T> where T : IParserCollectionOnDrive
+public sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveBase<T>(logger) where T : IParserCollectionOnDrive
 {
-    public CollectionOnDriveT(CollectionOnDriveArgs a) : base(a)
+    public void Init(string file2)
     {
+        base.Init(new CollectionOnDriveArgs { path = file2 });
     }
 
-    public CollectionOnDriveT(string file2) : base(new CollectionOnDriveArgs { file = file2 })
+    public async override Task Load()
     {
-    }
-
-    public override
-#if ASYNC
-        async Task
-#else
-void
-#endif
-        Load()
-    {
-        if (File.Exists(a.file))
+        if (File.Exists(a.path))
         {
             var dex = 0;
-            foreach (var item in SHGetLines.GetLines(
-#if ASYNC
-                         await
-#endif
-                             File.ReadAllTextAsync(a.file)))
-            //TF.ReadAllLines(a.file))
+            foreach (var item in SHGetLines.GetLines(await File.ReadAllTextAsync(a.path)))
             {
-                var t = (T)Activator.CreateInstance(typeof(T));
-                t.Parse(item);
-                Add(t);
+                var t = (T?)Activator.CreateInstance(typeof(T));
+
+                ThrowEx.IsNull(nameof(t), t);
+
+                t!.Parse(item);
+                await AddWithSave(t);
                 dex++;
             }
         }

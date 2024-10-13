@@ -326,7 +326,7 @@ PD.ShowMb(s);
     internal static bool debuggerBreakOnEveryExc = false;
 
 
-    internal static bool ThrowIsNotNull(string exception, bool reallyThrow = true)
+    internal static bool ThrowIsNotNull(string? exception, bool reallyThrow = true)
     {
         if (debuggerBreakOnEveryExc) Debugger.Break();
 
@@ -399,7 +399,7 @@ ShowMb("Throw exc");
         ThrowIsNotNull(Exceptions.ArgumentOutOfRangeException(FullNameOfExecutedCode(), paramName, message));
     }
 
-    internal static void IsNull(string variableName, object variable = null)
+    internal static void IsNull<T>(string variableName, T? variable = default(T))
     {
         ThrowIsNotNull(Exceptions.IsNull(FullNameOfExecutedCode(), variableName, variable));
     }

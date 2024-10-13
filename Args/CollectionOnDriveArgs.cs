@@ -2,6 +2,6 @@ namespace SunamoCollectionOnDrive.Args;
 
 public class CollectionOnDriveArgs
 {
-    public string file;
+    public string path;
     public bool loadChangesFromDrive = true;
 }

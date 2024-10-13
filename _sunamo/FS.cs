@@ -22,7 +22,13 @@ nad
         while (true)
         {
             nad = Path.GetDirectoryName(nad);
-            
+
+            if (nad == null)
+            {
+                ThrowEx.IsNull(nameof(nad), nad);
+                return;
+            }
+
             if (Directory.Exists(nad))
             {
                 break;

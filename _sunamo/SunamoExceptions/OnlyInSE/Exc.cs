@@ -7,7 +7,6 @@ internal class Exc
     #region For easy copy in SunamoException project
 
     private static bool first = true;
-    private static readonly StringBuilder sb = new();
 
 
     internal static string GetStackTrace(bool stopAtFirstSystem = false)
@@ -30,8 +29,8 @@ internal class Exc
 
         l.RemoveAt(0);
         var i = 0;
-        string type = null;
-        string methodName = null;
+        string type = string.Empty;
+        string methodName = string.Empty;
         for (; i < l.Count; i++)
         {
             var item = l[i];
@@ -73,6 +72,12 @@ internal class Exc
     {
         StackTrace stackTrace = new();
         var methodBase = stackTrace.GetFrame(v).GetMethod();
+
+        if (methodBase == null)
+        {
+
+        }
+
         var methodName = methodBase.Name;
         if (_trimTestOnEnd) methodName = SH.TrimEnd(methodName, "Test");
         return methodName;

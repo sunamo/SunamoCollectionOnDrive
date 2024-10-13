@@ -1,50 +1,35 @@
+using Microsoft.Extensions.Logging;
+
 namespace SunamoCollectionOnDrive;
 
 /// <summary>
-///     Checking whether string is already contained.
+///     
 /// </summary>
-public class CollectionOnDrive : CollectionOnDriveBase<string>
+public sealed class CollectionOnDrive(ILogger logger) : CollectionOnDriveBase<string>(logger)
 {
-    private static CollectionOnDrive wroteOnDrive = null;
     public bool removeDuplicates = false;
-
-    public CollectionOnDrive(CollectionOnDriveArgs a) : base(a)
+    public async Task Load(string path)
     {
-    }
-
-    public CollectionOnDrive(string file) : base(new CollectionOnDriveArgs { file = file })
-    {
-    }
-
-    public async Task Load(string file)
-    {
-        a.file = file;
+        a.path = path;
         await Load();
     }
 
-    public override
-#if ASYNC
-        async Task
-#else
-void
-#endif
-        Load()
+    public override async Task Load()
     {
-        if (File.Exists(a.file))
+        if (File.Exists(a.path))
         {
-            AddRange(SHGetLines.GetLines(
-#if ASYNC
-                await
-#endif
-                    File.ReadAllTextAsync(a.file)));
-            //CA.RemoveStringsEmpty2(this);
+            await ClearWithSave();
+            var rows = SHGetLines.GetLines(await File.ReadAllTextAsync(a.path));
+            rows = rows.Where(line => line.Trim() != string.Empty).ToList();
+            AddRange(rows);
+
             if (removeDuplicates)
             {
-                //CAG.RemoveDuplicitiesList<string>(this);
                 var d = this.ToList();
                 Clear();
                 d = d.Distinct().ToList();
                 AddRange(d);
+                await Save();
             }
         }
     }

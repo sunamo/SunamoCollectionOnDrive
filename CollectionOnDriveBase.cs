@@ -1,141 +1,113 @@
+using Microsoft.Extensions.Logging;
+
 namespace SunamoCollectionOnDrive;
 
-public abstract class CollectionOnDriveBase<T> : List<T>
+public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
 {
-    #region DPP
-
-    protected CollectionOnDriveArgs a;
-
-    #endregion
-
+    protected CollectionOnDriveArgs a = new();
     private bool isSaving;
+    private FileSystemWatcher? w;
 
-    /// <summary>
-    ///     Must use FileSystemWatcher, not FileSystemWatcher because its in sunamo, not desktop
-    /// </summary>
-    private readonly FileSystemWatcher w;
-
-    public
-#if ASYNC
-        async Task
-#else
-void
-#endif
-        RemoveAll()
+    public async Task RemoveAll()
     {
-        Clear();
-#if ASYNC
-        await
-#endif
-            File.WriteAllTextAsync(a.file, string.Empty);
+        await ClearWithSave();
+        await File.WriteAllTextAsync(a.path, string.Empty);
     }
 
-    public new void Remove(T t)
+    public async Task RemoveWithSave(T t)
     {
         base.Remove(t);
-        Save();
+        await Save();
     }
 
-    public new void Clear()
+    public async Task ClearWithSave()
     {
         base.Clear();
-        Save();
+        await Save();
     }
 
-    public abstract
-#if ASYNC
-        Task
-#else
-void
-#endif
-        Load();
+    public abstract Task Load();
 
+    /// <summary>
+    /// Check whether T is already contained.
+    /// </summary>
+    /// <param name="t"></param>
     public void AddWithoutSave(T t)
     {
         if (!Contains(t)) base.Add(t);
     }
 
-    public void Add(IList<T> prvek)
+    /// <summary>
+    /// Check whether T is already contained.
+    /// </summary>
+    /// <param name="element"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public async Task<bool> AddWithSave(T? element)
     {
-        foreach (var item in prvek) Add(item);
-    }
-
-    public new bool Add(T prvek)
-    {
-        var b = false;
-        if (!Contains(prvek))
+        if (element is null)
         {
-            if (prvek.ToString().Trim() != string.Empty)
-            {
-                base.Add(prvek);
-                b = true;
-            }
-            // keep on false
+            throw new Exception($"{nameof(element)} is null");
         }
 
-        // keep on false
-        Save();
+        var b = false;
+        if (!Contains(element))
+        {
+            var ts = element.ToString() ?? throw new Exception($"ToString of type ${element} cannot return null");
+            if (ts.Trim() != string.Empty)
+            {
+                base.Add(element);
+                b = true;
+            }
+        }
+
+        await Save();
         return b;
     }
 
-    private void Load(bool loadImmediately)
-    {
-        if (loadImmediately) Load();
-    }
 
     public async Task Save()
     {
-
         isSaving = true;
-        var removedOrNotExists = false;
-        //if (FS.ExistsFile(a.file))
-        //{
-        //    removedOrNotExists = FS.TryDeleteFile(a.file);
-        //}
-        if (removedOrNotExists)
-        {
-            string obsah;
-            obsah = ReturnContent();
-            await File.WriteAllTextAsync(a.file, obsah);
-        }
-
+        await File.WriteAllTextAsync(a.path, SHJoin.JoinNL<T>(this));
         isSaving = false;
-
-    }
-
-    private string ReturnContent()
-    {
-        string obsah;
-        var sb = new StringBuilder();
-        foreach (var var in this) sb.AppendLine(var.ToString());
-        obsah = sb.ToString();
-        return obsah;
     }
 
     public override string ToString()
     {
-        return ReturnContent();
+        return SHJoin.JoinNL(this);
     }
 
-    #region base
+    #region ctor
 
-    public CollectionOnDriveBase(CollectionOnDriveArgs a)
+    public void Init(CollectionOnDriveArgs a)
     {
         this.a = a;
-        File.AppendAllText(a.file, "");
-        //FS.CreateFileIfDoesntExists(a.file);
+        File.AppendAllText(a.path, "");
         Load();
         if (a.loadChangesFromDrive)
         {
-            w = new FileSystemWatcher(Path.GetDirectoryName(a.file));
-            w.Filter = a.file;
-            w.Changed += W_Changed;
+            var up = Path.GetDirectoryName(a.path);
+            if (up is null)
+            {
+                logger.LogWarning("FileSystemWatcher cannot be registered because null value");
+                return;
+            }
+            else
+            {
+                w = new FileSystemWatcher
+                {
+                    Path = a.path
+                };
+                w.Changed += W_Changed;
+            }
         }
     }
 
     private void W_Changed(object sender, FileSystemEventArgs e)
     {
-        if (!isSaving) Load();
+        if (!isSaving)
+            Load();
     }
 
     #endregion
