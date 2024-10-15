@@ -1,6 +1,5 @@
-using Microsoft.Extensions.Logging;
-
 namespace SunamoCollectionOnDrive;
+using Microsoft.Extensions.Logging;
 
 public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
 {

@@ -1,6 +1,5 @@
-using Microsoft.Extensions.Logging;
-
 namespace SunamoCollectionOnDrive;
+using Microsoft.Extensions.Logging;
 
 public sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveBase<T>(logger) where T : IParserCollectionOnDrive
 {
