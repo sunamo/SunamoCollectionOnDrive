@@ -6,7 +6,7 @@ global using System;
 global using SunamoCollectionOnDrive.Args;
 global using SunamoCollectionOnDrive._public;
 global using SunamoCollectionOnDrive._sunamo.SunamoStringGetLines;
-global using SunamoCollectionOnDrive._sunamo.SunamoValues;
+global using SunamoCollectionOnDrive;
 global using SunamoCollectionOnDrive._sunamo.SunamoExceptions;
 global using System.Diagnostics;
 global using System.Threading.Tasks;
