@@ -12,3 +12,4 @@ global using System.Threading.Tasks;
 global using SunamoCollectionOnDrive._sunamo;
 global using System.Reflection;
 global using System.Net;
+global using System.Diagnostics.CodeAnalysis;
