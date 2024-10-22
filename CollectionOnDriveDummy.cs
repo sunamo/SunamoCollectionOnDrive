@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 /// class which is used to avoid the error CS8625 Cannot convert null literal to non-nullable reference type.
 /// </summary>
 /// <param name="logger"></param>
-internal class CollectionOnDriveDummy(ILogger logger) : CollectionOnDriveBase<string>(logger)
+public class CollectionOnDriveDummy(ILogger logger) : CollectionOnDriveBase<string>(logger)
 {
     public static CollectionOnDriveDummy Instance = new CollectionOnDriveDummy(NullLogger.Instance);
 
