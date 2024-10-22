@@ -3,6 +3,11 @@ using Microsoft.Extensions.Logging;
 
 public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
 {
+    /// <summary>
+    /// whether duplicates should be removed on load and whether duplicate items should not even be saved
+    /// </summary>
+    protected bool removeDuplicates = false;
+
     protected CollectionOnDriveArgs a = new();
     private bool isSaving;
     private FileSystemWatcher? w;
@@ -25,7 +30,7 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
         await Save();
     }
 
-    public abstract Task Load();
+    public abstract Task Load(bool removeDuplicates);
 
     /// <summary>
     /// Check whether T is already contained.
@@ -33,7 +38,17 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// <param name="t"></param>
     public void AddWithoutSave(T t)
     {
-        if (!Contains(t)) base.Add(t);
+        if (removeDuplicates)
+        {
+            if (!Contains(t))
+            {
+                base.Add(t);
+            }
+        }
+        else
+        {
+            base.Add(t);
+        }
     }
 
     /// <summary>
@@ -49,19 +64,31 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
             throw new Exception($"{nameof(element)} is null");
         }
 
-        var b = false;
-        if (!Contains(element))
+        var wasChanged = false;
+        if (removeDuplicates)
         {
-            var ts = element.ToString() ?? throw new Exception($"ToString of type ${element} cannot return null");
-            if (ts.Trim() != string.Empty)
+            if (!Contains(element))
             {
-                base.Add(element);
-                b = true;
+                var ts = element.ToString() ?? throw new Exception($"ToString of type ${element} cannot return null");
+                if (ts.Trim() != string.Empty)
+                {
+                    base.Add(element);
+                    wasChanged = true;
+                }
             }
         }
+        else
+        {
+            base.Add(element);
+            wasChanged = true;
+        }
 
-        await Save();
-        return b;
+        if (wasChanged)
+        {
+            await Save();
+        }
+
+        return wasChanged;
     }
 
 
@@ -79,11 +106,13 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
 
     #region ctor
 
+    /// <summary>
+    /// optional call only if you want to set by CollectionOnDriveArgs. Calling Load() for already existing records is important.
+    /// </summary>
+    /// <param name="a"></param>
     public void Init(CollectionOnDriveArgs a)
     {
         this.a = a;
-        File.AppendAllText(a.path, "");
-        Load();
         if (a.loadChangesFromDrive)
         {
             var up = Path.GetDirectoryName(a.path);
@@ -106,7 +135,7 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     private void W_Changed(object sender, FileSystemEventArgs e)
     {
         if (!isSaving)
-            Load();
+            Load(removeDuplicates);
     }
 
     #endregion

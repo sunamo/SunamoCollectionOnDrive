@@ -3,12 +3,7 @@ using Microsoft.Extensions.Logging;
 
 public sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveBase<T>(logger) where T : IParserCollectionOnDrive
 {
-    public void Init(string file2)
-    {
-        base.Init(new CollectionOnDriveArgs { path = file2 });
-    }
-
-    public async override Task Load()
+    public async override Task Load(bool removeDuplicates)
     {
         if (File.Exists(a.path))
         {
