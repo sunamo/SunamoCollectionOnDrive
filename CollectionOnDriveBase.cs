@@ -36,7 +36,7 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// Check whether T is already contained.
     /// </summary>
     /// <param name="t"></param>
-    public void AddWithoutSave(T t)
+    public virtual void AddWithoutSave(T t)
     {
         if (removeDuplicates)
         {
@@ -57,7 +57,7 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// <param name="element"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public async Task<bool> AddWithSave(T? element)
+    public virtual async Task<bool> AddWithSave(T? element)
     {
         if (element is null)
         {

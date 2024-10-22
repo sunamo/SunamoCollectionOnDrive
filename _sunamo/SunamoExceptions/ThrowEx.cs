@@ -72,5 +72,10 @@ internal partial class ThrowEx
         }
         return false;
     }
+
+    internal static void UseNonDummyCollection()
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }
