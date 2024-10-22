@@ -1,5 +1,6 @@
 namespace SunamoCollectionOnDrive;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
 {
@@ -38,6 +39,11 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// <param name="t"></param>
     public virtual void AddWithoutSave(T t)
     {
+        if (logger == NullLogger.Instance)
+        {
+            ThrowEx.UseNonDummyCollection();
+        }
+
         if (removeDuplicates)
         {
             if (!Contains(t))
@@ -59,6 +65,11 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// <exception cref="Exception"></exception>
     public virtual async Task<bool> AddWithSave(T? element)
     {
+        if (logger == NullLogger.Instance)
+        {
+            ThrowEx.UseNonDummyCollection();
+        }
+
         if (element is null)
         {
             throw new Exception($"{nameof(element)} is null");

@@ -1,13 +1,21 @@
 namespace SunamoCollectionOnDrive;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 /// <summary>
 ///     
 /// </summary>
 public sealed class CollectionOnDrive(ILogger logger) : CollectionOnDriveBase<string>(logger)
 {
+    public static CollectionOnDrive Dummy = new CollectionOnDrive(NullLogger.Instance);
+
     public async Task Load(string path, bool removeDuplicates)
     {
+        if (logger == NullLogger.Instance)
+        {
+            ThrowEx.UseNonDummyCollection();
+        }
+
         a.path = path;
         await Load(removeDuplicates);
     }
