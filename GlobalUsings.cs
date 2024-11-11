@@ -15,3 +15,4 @@ global using System.Net;
 global using System.Diagnostics.CodeAnalysis;
 global using SunamoCollectionOnDrive;
 global using SunamoCollectionOnDrive._sunamo.SunamoParsing;
+global using SunamoCollectionOnDrive.Services;
