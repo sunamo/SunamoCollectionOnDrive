@@ -16,10 +16,10 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>$(DefineConstants);ASYNC;SunamoCollectionOnDrive;SunamoCollectionOnDrive.csproj</DefineConstants>
+    <DefineConstants>$(DefineConstants);ASYNC</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants);ASYNC;SunamoCollectionOnDrive;SunamoCollectionOnDrive.csproj</DefineConstants>
+    <DefineConstants>$(DefineConstants);ASYNC</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
