@@ -15,12 +15,6 @@
     <PackageReleaseNotes>Remove vulnerable packages</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>$(DefineConstants);ASYNC</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants);ASYNC</DefineConstants>
-  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <None Include="readme.md" Pack="True" PackagePath="." />
@@ -28,4 +22,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
   </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);ASYNC</DefineConstants>
+    <NoWarn>CA1822</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);ASYNC</DefineConstants>
+    <NoWarn>CA1822</NoWarn>
+  </PropertyGroup>
 </Project>
