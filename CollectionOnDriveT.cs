@@ -1,5 +1,4 @@
 namespace SunamoCollectionOnDrive;
-using Microsoft.Extensions.Logging;
 
 public sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveBase<T>(logger) where T : IParserCollectionOnDrive
 {
@@ -11,9 +10,7 @@ public sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveBas
             foreach (var item in SHGetLines.GetLines(await File.ReadAllTextAsync(a.path)))
             {
                 var t = (T?)Activator.CreateInstance(typeof(T));
-
                 ThrowEx.IsNull(nameof(t), t);
-
                 t!.Parse(item);
                 await AddWithSave(t);
                 dex++;

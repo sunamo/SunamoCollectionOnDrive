@@ -1,5 +1,4 @@
 namespace SunamoCollectionOnDrive._sunamo;
-using System.Collections.Generic;
 
 internal class SHJoin
 {

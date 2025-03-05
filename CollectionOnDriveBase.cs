@@ -1,6 +1,4 @@
 namespace SunamoCollectionOnDrive;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
 {
@@ -8,31 +6,25 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// whether duplicates should be removed on load and whether duplicate items should not even be saved
     /// </summary>
     protected bool removeDuplicates = false;
-
     protected CollectionOnDriveArgs a = new();
     private bool isSaving;
     private FileSystemWatcher? w;
-
     public async Task RemoveAll()
     {
         await ClearWithSave();
         await File.WriteAllTextAsync(a.path, string.Empty);
     }
-
     public async Task RemoveWithSave(T t)
     {
         base.Remove(t);
         await Save();
     }
-
     public async Task ClearWithSave()
     {
         base.Clear();
         await Save();
     }
-
     public abstract Task Load(bool removeDuplicates);
-
     /// <summary>
     /// Check whether T is already contained.
     /// </summary>
@@ -43,7 +35,6 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
         {
             ThrowEx.UseNonDummyCollection();
         }
-
         if (removeDuplicates)
         {
             if (!Contains(t))
@@ -56,7 +47,6 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
             base.Add(t);
         }
     }
-
     /// <summary>
     /// Check whether T is already contained.
     /// </summary>
@@ -69,12 +59,10 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
         {
             ThrowEx.UseNonDummyCollection();
         }
-
         if (element is null)
         {
             throw new Exception($"{nameof(element)} is null");
         }
-
         var wasChanged = false;
         if (removeDuplicates)
         {
@@ -93,30 +81,23 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
             base.Add(element);
             wasChanged = true;
         }
-
         if (wasChanged)
         {
             await Save();
         }
-
         return wasChanged;
     }
-
-
     public async Task Save()
     {
         isSaving = true;
         await File.WriteAllTextAsync(a.path, SHJoin.JoinNL<T>(this));
         isSaving = false;
     }
-
     public override string ToString()
     {
         return SHJoin.JoinNL(this);
     }
-
     #region ctor
-
     /// <summary>
     /// optional call only if you want to set by CollectionOnDriveArgs. Calling Load() for already existing records is important.
     /// </summary>
@@ -142,12 +123,10 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
             }
         }
     }
-
     private void W_Changed(object sender, FileSystemEventArgs e)
     {
         if (!isSaving)
             Load(removeDuplicates);
     }
-
     #endregion
 }
