@@ -16,7 +16,6 @@ global using System.Diagnostics.CodeAnalysis;
 global using SunamoCollectionOnDrive;
 global using SunamoCollectionOnDrive._sunamo.SunamoParsing;
 global using SunamoCollectionOnDrive.Services;
-
 global using Microsoft.Extensions.Logging.Abstractions;
 global using Microsoft.Extensions.Logging;
 global using ILogger = Microsoft.Extensions.Logging.ILogger;
