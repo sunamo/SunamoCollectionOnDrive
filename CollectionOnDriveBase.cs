@@ -87,10 +87,10 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
         }
         return wasChanged;
     }
-    public async Task Save()
+    public async Task Save(bool distinct = false)
     {
         isSaving = true;
-        await File.WriteAllTextAsync(a.path, SHJoin.JoinNL<T>(this));
+        await File.WriteAllTextAsync(a.path, SHJoin.JoinNL<T>(this.Distinct().ToList()));
         isSaving = false;
     }
     public override string ToString()
