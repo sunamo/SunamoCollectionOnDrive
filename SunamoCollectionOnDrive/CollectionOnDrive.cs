@@ -1,3 +1,6 @@
+// EN: Variable names have been checked and replaced with self-descriptive names
+// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+
 namespace SunamoCollectionOnDrive;
 
 /// <summary>
@@ -25,10 +28,10 @@ public sealed class CollectionOnDrive(ILogger logger) : CollectionOnDriveBase<st
             AddRange(rows);
             if (removeDuplicates)
             {
-                var d = this.ToList();
+                var data = this.ToList();
                 Clear();
-                d = d.Distinct().ToList();
-                AddRange(d);
+                data = data.Distinct().ToList();
+                AddRange(data);
                 await Save();
             }
         }
