@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoCollectionOnDrive._sunamo.SunamoExceptions;
 
 // EN: Variable names have been checked and replaced with self-descriptive names
@@ -9,8 +10,8 @@ internal partial class ThrowEx
     internal static bool Custom(string message, bool reallyThrow = true, string secondMessage = "")
     {
         string joined = string.Join(" ", message, secondMessage);
-        string? str = Exceptions.Custom(FullNameOfExecutedCode(), joined);
-        return ThrowIsNotNull(str, reallyThrow);
+        string? exceptionMessage = Exceptions.Custom(FullNameOfExecutedCode(), joined);
+        return ThrowIsNotNull(exceptionMessage, reallyThrow);
     }
     internal static bool IsNull(string variableName, object? variable = null)
     { return ThrowIsNotNull(Exceptions.IsNull(FullNameOfExecutedCode(), variableName, variable)); }
@@ -19,9 +20,9 @@ internal partial class ThrowEx
     #region Other
     internal static string FullNameOfExecutedCode()
     {
-        Tuple<string, string, string> placeOfExc = Exceptions.PlaceOfException();
-        string f = FullNameOfExecutedCode(placeOfExc.Item1, placeOfExc.Item2, true);
-        return f;
+        Tuple<string, string, string> placeOfException = Exceptions.PlaceOfException();
+        string fullName = FullNameOfExecutedCode(placeOfException.Item1, placeOfException.Item2, true);
+        return fullName;
     }
 
     static string FullNameOfExecutedCode(object type, string methodName, bool fromThrowEx = false)
@@ -52,8 +53,8 @@ internal partial class ThrowEx
         }
         else
         {
-            Type t = type.GetType();
-            typeFullName = t.FullName ?? "Type cannot be get via type.GetType()";
+            Type objectType = type.GetType();
+            typeFullName = objectType.FullName ?? "Type cannot be get via type.GetType()";
         }
         return string.Concat(typeFullName, ".", methodName);
     }

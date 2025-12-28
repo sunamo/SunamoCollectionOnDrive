@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoCollectionOnDrive;
 
 public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
@@ -6,17 +7,17 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// whether duplicates should be removed on load and whether duplicate items should not even be saved
     /// </summary>
     protected bool removeDuplicates = false;
-    protected CollectionOnDriveArgs a = new();
+    protected CollectionOnDriveArgs args = new();
     private bool isSaving;
-    private FileSystemWatcher? w;
+    private FileSystemWatcher? watcher;
     public async Task RemoveAll()
     {
         await ClearWithSave();
-        await File.WriteAllTextAsync(a.path, string.Empty);
+        await File.WriteAllTextAsync(args.Path, string.Empty);
     }
-    public async Task RemoveWithSave(T t)
+    public async Task RemoveWithSave(T item)
     {
-        base.Remove(t);
+        base.Remove(item);
         await Save();
     }
     public async Task ClearWithSave()
@@ -28,8 +29,8 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// <summary>
     /// Check whether T is already contained.
     /// </summary>
-    /// <param name="t"></param>
-    public virtual void AddWithoutSave(T t)
+    /// <param name="item"></param>
+    public virtual void AddWithoutSave(T item)
     {
         if (logger == NullLogger.Instance)
         {
@@ -37,48 +38,48 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
         }
         if (removeDuplicates)
         {
-            if (!Contains(t))
+            if (!Contains(item))
             {
-                base.Add(t);
+                base.Add(item);
             }
         }
         else
         {
-            base.Add(t);
+            base.Add(item);
         }
     }
     /// <summary>
     /// Check whether T is already contained.
     /// </summary>
-    /// <param name="element"></param>
+    /// <param name="item"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public virtual async Task<bool> AddWithSave(T? element)
+    public virtual async Task<bool> AddWithSave(T? item)
     {
         if (logger == NullLogger.Instance)
         {
             ThrowEx.UseNonDummyCollection();
         }
-        if (element is null)
+        if (item is null)
         {
-            throw new Exception($"{nameof(element)} is null");
+            throw new Exception($"{nameof(item)} is null");
         }
         var wasChanged = false;
         if (removeDuplicates)
         {
-            if (!Contains(element))
+            if (!Contains(item))
             {
-                var ts = element.ToString() ?? throw new Exception($"ToString of type ${element} cannot return null");
-                if (ts.Trim() != string.Empty)
+                var stringValue = item.ToString() ?? throw new Exception($"ToString of type ${item} cannot return null");
+                if (stringValue.Trim() != string.Empty)
                 {
-                    base.Add(element);
+                    base.Add(item);
                     wasChanged = true;
                 }
             }
         }
         else
         {
-            base.Add(element);
+            base.Add(item);
             wasChanged = true;
         }
         if (wasChanged)
@@ -90,7 +91,7 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     public async Task Save()
     {
         isSaving = true;
-        await File.WriteAllTextAsync(a.path, SHJoin.JoinNL<T>(this.Distinct().ToList()));
+        await File.WriteAllTextAsync(args.Path, SHJoin.JoinNL<T>(this.Distinct().ToList()));
         isSaving = false;
     }
     public override string ToString()
@@ -101,29 +102,29 @@ public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>
     /// <summary>
     /// optional call only if you want to set by CollectionOnDriveArgs. Calling Load() for already existing records is important.
     /// </summary>
-    /// <param name="a"></param>
-    public void Init(CollectionOnDriveArgs a)
+    /// <param name="arguments"></param>
+    public void Init(CollectionOnDriveArgs arguments)
     {
-        this.a = a;
-        if (a.loadChangesFromDrive)
+        this.args = arguments;
+        if (args.LoadChangesFromDrive)
         {
-            var up = Path.GetDirectoryName(a.path);
-            if (up is null)
+            var parentDirectory = Path.GetDirectoryName(args.Path);
+            if (parentDirectory is null)
             {
                 logger.LogWarning("FileSystemWatcher cannot be registered because null value");
                 return;
             }
             else
             {
-                w = new FileSystemWatcher
+                watcher = new FileSystemWatcher
                 {
-                    Path = a.path
+                    Path = args.Path
                 };
-                w.Changed += W_Changed;
+                watcher.Changed += Watcher_Changed;
             }
         }
     }
-    private void W_Changed(object sender, FileSystemEventArgs e)
+    private void Watcher_Changed(object sender, FileSystemEventArgs e)
     {
         if (!isSaving)
             Load(removeDuplicates);

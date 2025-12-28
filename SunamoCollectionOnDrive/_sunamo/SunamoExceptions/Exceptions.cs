@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoCollectionOnDrive._sunamo.SunamoExceptions;
 
 // © www.sunamo.cz. All Rights Reserved.
@@ -13,9 +14,9 @@ internal sealed partial class Exceptions
     internal static Tuple<string, string, string> PlaceOfException(
 bool fillAlsoFirstTwo = true)
     {
-        StackTrace st = new();
-        var value = st.ToString();
-        var lines = value.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        StackTrace stackTrace = new();
+        var stackTraceText = stackTrace.ToString();
+        var lines = stackTraceText.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
         lines.RemoveAt(0);
         var i = 0;
         string type = string.Empty;
@@ -38,14 +39,14 @@ bool fillAlsoFirstTwo = true)
         }
         return new Tuple<string, string, string>(type, methodName, string.Join(Environment.NewLine, lines));
     }
-    internal static void TypeAndMethodName(string lines, out string type, out string methodName)
+    internal static void TypeAndMethodName(string line, out string type, out string methodName)
     {
-        var s2 = lines.Split("at ")[1].Trim();
-        var text = s2.Split("(")[0];
-        var parameter = text.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-        methodName = parameter[^1];
-        parameter.RemoveAt(parameter.Count - 1);
-        type = string.Join(".", parameter);
+        var trimmedLine = line.Split("at ")[1].Trim();
+        var text = trimmedLine.Split("(")[0];
+        var nameParts = text.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        methodName = nameParts[^1];
+        nameParts.RemoveAt(nameParts.Count - 1);
+        type = string.Join(".", nameParts);
     }
     internal static string CallingMethod(int value = 1)
     {
@@ -61,8 +62,8 @@ bool fillAlsoFirstTwo = true)
     #endregion
 
     #region IsNullOrWhitespace
-    readonly static StringBuilder sbAdditionalInfoInner = new();
-    readonly static StringBuilder sbAdditionalInfo = new();
+    internal readonly static StringBuilder AdditionalInfoInnerStringBuilder = new();
+    internal readonly static StringBuilder AdditionalInfoStringBuilder = new();
     #endregion
 
     #region OnlyReturnString 

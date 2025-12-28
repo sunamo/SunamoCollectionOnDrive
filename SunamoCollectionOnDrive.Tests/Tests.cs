@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoCollectionOnDrive.Tests;
 
 using SunamoTest;
@@ -9,12 +10,12 @@ public class Tests
     {
         var path = Path.Combine(Environment.CurrentDirectory, "LoadAddAndSave.txt");
 
-        CollectionOnDrive d = new CollectionOnDrive(TestLogger.Instance);
-        await d.Load(path, true);
-        d.Add("a");
-        d.Add("c");
+        CollectionOnDrive collection = new CollectionOnDrive(TestLogger.Instance);
+        await collection.Load(path, true);
+        collection.Add("a");
+        collection.Add("c");
 
-        await d.Save();
+        await collection.Save();
 
         await AddDTest();
     }
@@ -24,10 +25,10 @@ public class Tests
     {
         var path = Path.Combine(Environment.CurrentDirectory, "LoadAddAndSave.txt");
 
-        CollectionOnDrive d = new CollectionOnDrive(TestLogger.Instance);
-        await d.Load(path, true);
-        d.Add("d");
+        CollectionOnDrive collection = new CollectionOnDrive(TestLogger.Instance);
+        await collection.Load(path, true);
+        collection.Add("d");
 
-        await d.Save();
+        await collection.Save();
     }
 }
