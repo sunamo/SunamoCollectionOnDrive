@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoCollectionOnDrive;
 
 public abstract class CollectionOnDriveBase<T>(ILogger logger) : List<T>

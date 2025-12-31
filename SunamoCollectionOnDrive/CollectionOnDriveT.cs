@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoCollectionOnDrive;
 
 public sealed class CollectionOnDriveT<T>(ILogger logger) : CollectionOnDriveBase<T>(logger) where T : IParserCollectionOnDrive
