@@ -1,17 +1,30 @@
 namespace SunamoCollectionOnDrive._sunamo.SunamoExceptions;
 
 // © www.sunamo.cz. All Rights Reserved.
+
+/// <summary>
+/// Helper class for creating exception messages with context information
+/// </summary>
 internal sealed partial class Exceptions
 {
     #region Other
-    internal static string CheckBefore(string before)
+    /// <summary>
+    /// Checks and formats a prefix string for exception messages
+    /// </summary>
+    /// <param name="prefix">Prefix to add before the exception message</param>
+    /// <returns>Empty string if prefix is null/whitespace, otherwise prefix with colon separator</returns>
+    internal static string CheckBefore(string prefix)
     {
-        return string.IsNullOrWhiteSpace(before) ? string.Empty : before + ": ";
+        return string.IsNullOrWhiteSpace(prefix) ? string.Empty : prefix + ": ";
     }
 
 
-    internal static Tuple<string, string, string> PlaceOfException(
-bool fillAlsoFirstTwo = true)
+    /// <summary>
+    /// Gets information about where an exception occurred in the call stack
+    /// </summary>
+    /// <param name="shouldFillFirstTwo">Whether to extract type and method name from the first non-ThrowEx frame</param>
+    /// <returns>Tuple containing type name, method name, and full stack trace</returns>
+    internal static Tuple<string, string, string> PlaceOfException(bool shouldFillFirstTwo = true)
     {
         StackTrace stackTrace = new();
         var stackTraceText = stackTrace.ToString();
@@ -23,11 +36,11 @@ bool fillAlsoFirstTwo = true)
         for (; i < lines.Count; i++)
         {
             var item = lines[i];
-            if (fillAlsoFirstTwo)
+            if (shouldFillFirstTwo)
                 if (!item.StartsWith("   at ThrowEx"))
                 {
                     TypeAndMethodName(item, out type, out methodName);
-                    fillAlsoFirstTwo = false;
+                    shouldFillFirstTwo = false;
                 }
             if (item.StartsWith("at System."))
             {
@@ -38,6 +51,12 @@ bool fillAlsoFirstTwo = true)
         }
         return new Tuple<string, string, string>(type, methodName, string.Join(Environment.NewLine, lines));
     }
+    /// <summary>
+    /// Parses a stack trace line to extract type and method names
+    /// </summary>
+    /// <param name="line">Stack trace line to parse</param>
+    /// <param name="type">Output parameter for the type name</param>
+    /// <param name="methodName">Output parameter for the method name</param>
     internal static void TypeAndMethodName(string line, out string type, out string methodName)
     {
         var trimmedLine = line.Split("at ")[1].Trim();
@@ -47,10 +66,16 @@ bool fillAlsoFirstTwo = true)
         nameParts.RemoveAt(nameParts.Count - 1);
         type = string.Join(".", nameParts);
     }
-    internal static string CallingMethod(int value = 1)
+
+    /// <summary>
+    /// Gets the name of the calling method from the stack trace
+    /// </summary>
+    /// <param name="frameIndex">Number of frames to skip in the stack trace (1 = immediate caller)</param>
+    /// <returns>Name of the calling method or error message if not found</returns>
+    internal static string CallingMethod(int frameIndex = 1)
     {
         StackTrace stackTrace = new();
-        var methodBase = stackTrace.GetFrame(value)?.GetMethod();
+        var methodBase = stackTrace.GetFrame(frameIndex)?.GetMethod();
         if (methodBase == null)
         {
             return "Method name cannot be get";
@@ -65,14 +90,28 @@ bool fillAlsoFirstTwo = true)
     internal readonly static StringBuilder AdditionalInfoStringBuilder = new();
     #endregion
 
-    #region OnlyReturnString 
-    internal static string? Custom(string before, string message)
+    #region OnlyReturnString
+    /// <summary>
+    /// Creates a custom exception message with optional prefix
+    /// </summary>
+    /// <param name="prefix">Prefix to add before the message (typically class.method context)</param>
+    /// <param name="message">The exception message</param>
+    /// <returns>Formatted exception message</returns>
+    internal static string? Custom(string prefix, string message)
     {
-        return CheckBefore(before) + message;
+        return CheckBefore(prefix) + message;
     }
     #endregion
-    internal static string? IsNull(string before, string variableName, object? variable)
+
+    /// <summary>
+    /// Checks if a variable is null and creates an exception message if so
+    /// </summary>
+    /// <param name="prefix">Prefix to add before the message (typically class.method context)</param>
+    /// <param name="variableName">Name of the variable being checked</param>
+    /// <param name="variable">The variable to check</param>
+    /// <returns>Exception message if variable is null, otherwise null</returns>
+    internal static string? IsNull(string prefix, string variableName, object? variable)
     {
-        return variable == null ? CheckBefore(before) + variableName + " " + "is null" + "." : null;
+        return variable == null ? CheckBefore(prefix) + variableName + " " + "is null" + "." : null;
     }
 }

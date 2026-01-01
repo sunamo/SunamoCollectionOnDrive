@@ -3,8 +3,14 @@ namespace SunamoCollectionOnDrive.Tests;
 
 using SunamoTest;
 
+/// <summary>
+/// Tests for CollectionOnDrive functionality
+/// </summary>
 public class Tests
 {
+    /// <summary>
+    /// Tests loading, adding items, and saving to disk
+    /// </summary>
     [Fact]
     public async Task LoadAddAndSaveTest()
     {
@@ -20,6 +26,9 @@ public class Tests
         await AddDTest();
     }
 
+    /// <summary>
+    /// Tests adding an item 'd' to the collection
+    /// </summary>
     [Fact]
     public async Task AddDTest()
     {
