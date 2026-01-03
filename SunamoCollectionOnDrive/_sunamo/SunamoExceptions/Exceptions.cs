@@ -1,7 +1,5 @@
 namespace SunamoCollectionOnDrive._sunamo.SunamoExceptions;
 
-// © www.sunamo.cz. All Rights Reserved.
-
 /// <summary>
 /// Helper class for creating exception messages with context information
 /// </summary>
