@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoCollectionOnDrive._sunamo.SunamoStringGetLines;
 
 /// <summary>

@@ -1,3 +1,4 @@
+// variables names: ok
 namespace SunamoCollectionOnDrive._public;
 
 /// <summary>
