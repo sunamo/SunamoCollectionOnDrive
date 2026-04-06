@@ -1,6 +1,6 @@
 # SunamoCollectionOnDrive
 
-A collection that maintains its content even in a permanent file
+A .NET library providing a collection that automatically persists its content to a file on disk. Supports both simple string collections and custom types via a parser interface.
 
 ## Overview
 
@@ -10,18 +10,20 @@ SunamoCollectionOnDrive is part of the Sunamo package ecosystem, providing modul
 
 ### Key Classes
 
-- **CollectionOnDriveArgs**
-- **CollectionOnDrive**
-- **CollectionOnDriveT**
+- **CollectionOnDrive** - A string collection that persists to a file on disk
+- **CollectionOnDriveT\<T\>** - A generic collection for custom types implementing `IParserCollectionOnDrive`
+- **CollectionOnDriveBase\<T\>** - Abstract base class with shared persistence logic
+- **CollectionOnDriveArgs** - Configuration arguments for the collection
 
 ### Key Methods
 
-- `Load()`
-- `RemoveAll()`
-- `RemoveWithSave()`
-- `ClearWithSave()`
-- `Save()`
-- `Init()`
+- `Load()` - Loads the collection from disk
+- `AddWithSave()` - Adds an item and saves to disk
+- `AddWithoutSave()` - Adds an item without persisting
+- `RemoveWithSave()` - Removes an item and saves to disk
+- `RemoveAll()` - Clears the collection and the file
+- `Save()` - Saves the current state to disk
+- `Init()` - Initializes with configuration and optional file watching
 
 ## Installation
 
@@ -31,15 +33,13 @@ dotnet add package SunamoCollectionOnDrive
 
 ## Dependencies
 
-- **Microsoft.Extensions.Logging.Abstractions** (v9.0.3)
+- **Microsoft.Extensions.Logging.Abstractions** (v10.0.2)
 
 ## Package Information
 
 - **Package Name**: SunamoCollectionOnDrive
-- **Version**: 25.6.7.1
-- **Target Framework**: net9.0
+- **Target Frameworks**: net10.0; net9.0; net8.0
 - **Category**: Platform-Independent NuGet Package
-- **Source Files**: 14
 
 ## Related Packages
 
@@ -47,4 +47,4 @@ This package is part of the Sunamo package ecosystem. For more information about
 
 ## License
 
-See the repository root for license information.
+MIT
