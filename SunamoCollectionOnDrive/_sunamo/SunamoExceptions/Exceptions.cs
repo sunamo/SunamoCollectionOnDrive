@@ -83,11 +83,6 @@ internal sealed partial class Exceptions
     }
     #endregion
 
-    #region IsNullOrWhitespace
-    internal readonly static StringBuilder AdditionalInfoInnerStringBuilder = new();
-    internal readonly static StringBuilder AdditionalInfoStringBuilder = new();
-    #endregion
-
     #region OnlyReturnString
     /// <summary>
     /// Creates a custom exception message with optional prefix.

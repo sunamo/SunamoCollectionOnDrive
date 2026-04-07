@@ -1,6 +1,4 @@
 global using System.Linq;
-global using System.Text;
-global using System.Collections;
 global using System.Collections.Generic;
 global using System;
 global using SunamoCollectionOnDrive.Args;
@@ -11,8 +9,6 @@ global using System.Diagnostics;
 global using System.Threading.Tasks;
 global using SunamoCollectionOnDrive._sunamo;
 global using System.Reflection;
-global using System.Net;
-global using System.Diagnostics.CodeAnalysis;
 global using SunamoCollectionOnDrive;
 global using Microsoft.Extensions.Logging.Abstractions;
 global using Microsoft.Extensions.Logging;

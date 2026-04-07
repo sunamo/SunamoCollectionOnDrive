@@ -8,7 +8,7 @@ public sealed class CollectionOnDrive : CollectionOnDriveBase<string>
     /// <summary>
     /// Dummy instance for testing or default scenarios. Do not use for production - will throw exception on operations.
     /// </summary>
-    public static CollectionOnDrive Dummy = new CollectionOnDrive(NullLogger.Instance);
+    public static CollectionOnDrive Dummy { get; set; } = new CollectionOnDrive(NullLogger.Instance);
 
     /// <summary>
     /// Initializes a new instance of the CollectionOnDrive class.

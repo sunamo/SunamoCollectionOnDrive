@@ -9,17 +9,17 @@ public abstract class CollectionOnDriveBase<T> : List<T>
     /// <summary>
     /// Logger instance for this collection.
     /// </summary>
-    protected readonly ILogger Logger;
+    protected ILogger Logger { get; }
 
     /// <summary>
     /// Whether duplicates should be removed on load and whether duplicate items should not even be saved.
     /// </summary>
-    protected bool IsRemovingDuplicates = false;
+    protected bool IsRemovingDuplicates { get; set; } = false;
 
     /// <summary>
     /// Configuration arguments for the collection.
     /// </summary>
-    protected CollectionOnDriveArgs Args = new();
+    protected CollectionOnDriveArgs Args { get; set; } = new();
 
     private bool isSaving;
     private FileSystemWatcher? watcher;
