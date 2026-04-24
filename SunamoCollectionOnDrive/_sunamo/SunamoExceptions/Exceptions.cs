@@ -19,9 +19,9 @@ internal sealed partial class Exceptions
     /// <summary>
     /// Gets information about where an exception occurred in the call stack.
     /// </summary>
-    /// <param name="isShouldFillFirstTwo">Whether to extract type and method name from the first non-ThrowEx frame.</param>
+    /// <param name="shouldFillFirstTwo">Whether to extract type and method name from the first non-ThrowEx frame.</param>
     /// <returns>Tuple containing type name, method name, and full stack trace.</returns>
-    internal static Tuple<string, string, string> PlaceOfException(bool isShouldFillFirstTwo = true)
+    internal static Tuple<string, string, string> PlaceOfException(bool shouldFillFirstTwo = true)
     {
         StackTrace stackTrace = new();
         var stackTraceText = stackTrace.ToString();
@@ -33,11 +33,11 @@ internal sealed partial class Exceptions
         for (; i < lines.Count; i++)
         {
             var line = lines[i];
-            if (isShouldFillFirstTwo)
+            if (shouldFillFirstTwo)
                 if (!line.StartsWith("   at ThrowEx"))
                 {
                     TypeAndMethodName(line, out type, out methodName);
-                    isShouldFillFirstTwo = false;
+                    shouldFillFirstTwo = false;
                 }
             if (line.StartsWith("at System."))
             {
@@ -76,7 +76,7 @@ internal sealed partial class Exceptions
         var methodBase = stackTrace.GetFrame(frameIndex)?.GetMethod();
         if (methodBase == null)
         {
-            return "Method name cannot be get";
+            return "Method name could not be obtained";
         }
         var methodName = methodBase.Name;
         return methodName;
