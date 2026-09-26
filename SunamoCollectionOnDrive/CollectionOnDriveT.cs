@@ -22,7 +22,7 @@ public sealed class CollectionOnDriveT<T> : CollectionOnDriveBase<T> where T : I
     {
         if (File.Exists(Args.Path))
         {
-            foreach (var item in SHGetLines.GetLines(await File.ReadAllTextAsync(Args.Path)))
+            foreach (var item in SHGetLines.GetLines(await FileAsync.ReadAllTextAsync(Args.Path)))
             {
                 var instance = (T?)Activator.CreateInstance(typeof(T));
                 ThrowEx.IsNull(nameof(instance), instance);

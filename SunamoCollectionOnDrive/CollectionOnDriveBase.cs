@@ -39,7 +39,7 @@ public abstract class CollectionOnDriveBase<T> : List<T>
     public async Task RemoveAll()
     {
         await ClearWithSave();
-        await File.WriteAllTextAsync(Args.Path, string.Empty);
+        await FileAsync.WriteAllTextAsync(Args.Path, string.Empty);
     }
 
     /// <summary>
@@ -137,7 +137,7 @@ public abstract class CollectionOnDriveBase<T> : List<T>
     public async Task Save()
     {
         isSaving = true;
-        await File.WriteAllTextAsync(Args.Path, SHJoin.JoinNL<T>(this.Distinct().ToList()));
+        await FileAsync.WriteAllTextAsync(Args.Path, SHJoin.JoinNL<T>(this.Distinct().ToList()));
         isSaving = false;
     }
 

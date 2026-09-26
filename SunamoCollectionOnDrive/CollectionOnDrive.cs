@@ -42,7 +42,7 @@ public sealed class CollectionOnDrive : CollectionOnDriveBase<string>
         if (File.Exists(Args.Path))
         {
             Clear();
-            var lines = SHGetLines.GetLines(await File.ReadAllTextAsync(Args.Path));
+            var lines = SHGetLines.GetLines(await FileAsync.ReadAllTextAsync(Args.Path));
             lines = lines.Where(line => line.Trim() != string.Empty).ToList();
             AddRange(lines);
             if (isRemovingDuplicates)

@@ -74,7 +74,7 @@ internal sealed partial class Exceptions
     {
         StackTrace stackTrace = new();
         var methodBase = stackTrace.GetFrame(frameIndex)?.GetMethod();
-        if (methodBase == null)
+        if (methodBase is null)
         {
             return "Method name could not be obtained";
         }
@@ -105,6 +105,6 @@ internal sealed partial class Exceptions
     /// <returns>Exception message if variable is null, otherwise null.</returns>
     internal static string? IsNull(string prefix, string variableName, object? variable)
     {
-        return variable == null ? CheckBefore(prefix) + variableName + " " + "is null" + "." : null;
+        return variable is null ? CheckBefore(prefix) + variableName + " " + "is null" + "." : null;
     }
 }
