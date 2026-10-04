@@ -1,5 +1,10 @@
 # SunamoCollectionOnDrive
 
+## Short description
+
+Kolekce, která svůj obsah automaticky ukládá do souboru na disku. Podporuje jednoduché řetězcové kolekce i vlastní typy přes parser.
+
+
 A .NET library providing a collection that automatically persists its content to a file on disk. Supports both simple string collections and custom types via a parser interface.
 
 ## Overview
