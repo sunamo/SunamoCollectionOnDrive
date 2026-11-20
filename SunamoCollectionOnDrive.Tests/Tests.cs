@@ -1,4 +1,3 @@
-// variables names: ok
 namespace SunamoCollectionOnDrive.Tests;
 
 using SunamoTest;
