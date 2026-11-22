@@ -145,6 +145,25 @@ public abstract class CollectionOnDriveBase<T> : List<T>
     }
 
     /// <summary>
+    /// Saves the distinct items to the file synchronously and creates the folder of the file when it is missing.
+    /// </summary>
+    public void SaveSync()
+    {
+        isSaving = true;
+        try
+        {
+            var parentDirectory = Path.GetDirectoryName(Args.Path);
+            if (!string.IsNullOrEmpty(parentDirectory))
+                Directory.CreateDirectory(parentDirectory);
+            File.WriteAllText(Args.Path, SHJoin.JoinNL<T>(this.Distinct().ToList()));
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    /// <summary>
     /// To string.
     /// </summary>
     /// <returns>The to string result.</returns>

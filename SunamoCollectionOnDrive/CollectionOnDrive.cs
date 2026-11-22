@@ -38,6 +38,18 @@ public sealed class CollectionOnDrive : CollectionOnDriveBase<string>
     }
 
     /// <summary>
+    /// Sets the file of the collection and reads its non-empty lines synchronously; a missing file gives an empty collection.
+    /// </summary>
+    /// <param name="path">The path of the file that holds the collection.</param>
+    public void LoadSync(string path)
+    {
+        Args.Path = path;
+        Clear();
+        if (File.Exists(path))
+            AddRange(File.ReadAllLines(path).Where(line => line.Trim() != string.Empty));
+    }
+
+    /// <summary>
     /// Load.
     /// </summary>
     /// <param name="isRemovingDuplicates">The is removing duplicates.</param>
