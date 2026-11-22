@@ -44,6 +44,15 @@ public sealed class CollectionOnDrive : CollectionOnDriveBase<string>
     public void LoadSync(string path)
     {
         Args.Path = path;
+        LoadSync();
+    }
+
+    /// <summary>
+    /// Reads the non-empty lines of the file of the collection again, synchronously; a missing file gives an empty collection.
+    /// </summary>
+    public void LoadSync()
+    {
+        var path = Args.Path;
         Clear();
         if (File.Exists(path))
             AddRange(File.ReadAllLines(path).Where(line => line.Trim() != string.Empty));
